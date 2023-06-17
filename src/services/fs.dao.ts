@@ -29,16 +29,22 @@ export class ProductManager
         }catch(e){console.log(e)}
         },
         public getProducts=async ()=>{
+            try{ 
             await this.loadData()
             return this.Products
+        }catch(e){console.log(e)}
+         
         },
         public getProductById= async(id:number)=>{
+            try{
             await this.loadData()
             if (this.Products !== undefined)
             return await this.Products.filter((product)=>product.id as number ===id)
             else return {message:"Product not found"}
+        }catch(e){console.log(e)}
         },
         public updateProduct=async (id:number,product:Partial<T>)=>{
+            try{
             await this.loadData()
             if (this.Products !== undefined){
             const temporaryData= this.Products.filter(product=>product.id!==id)
@@ -47,13 +53,16 @@ export class ProductManager
             this.Products=temporaryData
             return {...product,id}
         }
+        }catch(e){console.log(e)}
         },
         public deleteProduct=async (id:number)=>{
+            try{
             await this.loadData()
             if (this.Products !==undefined){
             this.Products=this.Products.filter(product=>product.id!==id)
             await fs.promises.writeFile(this.path+"products.json",JSON.stringify(this.Products),"utf-8")
         }
+    }catch(e){console.log(e)}
         }
 
         ) {
